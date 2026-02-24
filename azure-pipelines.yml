@@ -43,9 +43,9 @@ steps:
     inputs:
       targetType: inline
       script: |
-        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
-        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
-        aws configure set default.region $AWS_REGION
+        aws configure set aws_access_key_id $(AWS_ACCESS_KEY_ID)
+        aws configure set aws_secret_access_key $(AWS_SECRET_ACCESS_KEY)
+        aws configure set default.region $(AWS_REGION)
 
   # Sync to S3
   - task: Bash@3
@@ -53,4 +53,4 @@ steps:
     inputs:
       targetType: inline
       script: |
-        aws s3 sync public/ s3://$S3_BUCKET_NAME --delete
+        aws s3 sync public/ s3://$(S3_BUCKET_NAME) --delete
