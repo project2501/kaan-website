@@ -1,0 +1,56 @@
+trigger:
+  branches:
+    include:
+      - main
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+  # Install Hugo
+  - task: Bash@3
+    displayName: Install Hugo
+    inputs:
+      targetType: inline
+      script: |
+        HUGO_VERSION=0.123.0
+        wget https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
+        tar -xzf hugo_extended_${HUGO_VERSION}_Linux-64bit.tar.gz
+        sudo mv hugo /usr/local/bin/hugo
+        hugo version
+
+  # Build the Hugo site
+  - task: Bash@3
+    displayName: Build Hugo Site
+    inputs:
+      targetType: inline
+      script: |
+        hugo --minify
+
+  # Install AWS CLI
+  - task: Bash@3
+    displayName: Install AWS CLI
+    inputs:
+      targetType: inline
+      script: |
+        sudo apt-get update
+        sudo apt-get install -y awscli
+        aws --version
+
+  # Configure AWS credentials
+  - task: Bash@3
+    displayName: Configure AWS Credentials
+    inputs:
+      targetType: inline
+      script: |
+        aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+        aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+        aws configure set default.region $AWS_REGION
+
+  # Sync to S3
+  - task: Bash@3
+    displayName: Upload to S3
+    inputs:
+      targetType: inline
+      script: |
+        aws s3 sync public/ s3://$S3_BUCKET_NAME --delete
