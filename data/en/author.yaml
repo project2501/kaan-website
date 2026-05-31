@@ -1,0 +1,19 @@
+# some information about you
+name: "Kaan Bardak"
+nickname: "Kaan"
+# greeting message before your name. it will default to "Hi! I am" if not provided
+greeting: "Hi, I am"
+# TODO: replace with your own photo placed in assets/images/author/
+image: "images/author/john.png"
+# give your some contact information. they will be used in the footer
+contactInfo:
+  email: "kaan_bardak@hotmail.com"
+  github: project2501
+  linkedin: kaan2501
+
+# some summary about what you do
+summary:
+  - I train software architects & developers
+  - I turn engineers into technical leaders
+  - I am a Cloud Solution Architect
+  - I have 25+ years in software design

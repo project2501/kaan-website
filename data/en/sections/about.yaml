@@ -1,0 +1,62 @@
+# section information
+section:
+  name: About
+  id: about
+  enable: true
+  weight: 1
+  showOnNavbar: true
+  template: sections/about.html
+
+# your designation
+designation: Trainer & Mentor for Software Architects and Developers
+# Employer intentionally kept abstract on this personal site.
+# company:
+#   name: ""
+#   url: "#"
+
+# a summary about you
+summary: 'I train and mentor the people who design tomorrow''s software. As an instructor for software architects and developers, I deliver an award-winning architecture and clean-code curriculum that helps engineers grow into confident technical leaders. This builds on 25+ years of hands-on experience in software design and development — across many domains, team sizes and continents — currently at a global company that is a leader in its domain. Alongside training, I architect SaaS and cloud-native solutions on **Azure** and **AWS**: scalable, resilient microservices grounded in clean architecture and modern CI/CD. I have led architecture for teams of 250+ developers and guided global architecture groups of 30+ architects. I am based in the New York City metropolitan area and work in English, German and Turkish.'
+
+# your social links
+# give as many as you want. use font-awesome for the icons.
+socialLinks:
+- name: Email
+  icon: "fas fa-envelope"
+  url: "kaan_bardak@hotmail.com"
+
+- name: LinkedIn
+  icon: "fab fa-linkedin"
+  url: "https://www.linkedin.com/in/kaan2501"
+
+- name: GitHub
+  icon: "fab fa-github"
+  url: "https://www.github.com/project2501"
+
+# Show your badges
+# You can show your verifiable certificates from https://www.credly.com.
+# You can also show a circular bar indicating the level of expertise on a certain skill
+badges:
+- type: soft-skill-indicator
+  name: Training, Coaching & Mentoring
+  percentage: 95
+  color: blue
+
+- type: soft-skill-indicator
+  name: System & Software Architecture
+  percentage: 95
+  color: green
+
+- type: soft-skill-indicator
+  name: Cloud Native (Azure & AWS)
+  percentage: 90
+  color: orange
+
+- type: soft-skill-indicator
+  name: CI/CD & DevOps
+  percentage: 90
+  color: yellow
+
+- type: soft-skill-indicator
+  name: Design & Implement Agentic AI Applications
+  percentage: 90
+  color: "#6f42c1"

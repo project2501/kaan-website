@@ -1,0 +1,78 @@
+# section information
+section:
+  name: Skills
+  id: skills
+  enable: true
+  weight: 2
+  showOnNavbar: true
+  filter: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# filter buttons
+buttons:
+- name: All
+  filter: "all"
+- name: Cloud
+  filter: "cloud"
+- name: Language
+  filter: "language"
+- name: Container
+  filter: "container"
+- name: Tools
+  filter: "tools"
+
+# Your Skills.
+# Give a summary of you each skill in the summary section.
+skills:
+- name: .NET
+  logo: /images/sections/skills/dotnet.svg
+  summary: "Two decades of building distributed, enterprise, desktop and web applications on the .NET platform across every layer."
+  categories: ["language"]
+  url: "https://dotnet.microsoft.com/"
+
+- name: C#
+  logo: /images/sections/skills/csharp.svg
+  summary: "Primary language for most of my career. Strong in OOP, SOLID/GRASP design principles, design patterns and clean code."
+  categories: ["language"]
+  url: "https://learn.microsoft.com/dotnet/csharp/"
+
+- name: Microsoft Azure
+  logo: /images/sections/skills/azure.svg
+  summary: "Designing scalable, resilient cloud-native architectures on Azure. Microsoft Certified: Azure Developer & Azure AI Engineer Associate."
+  categories: ["cloud"]
+  url: "https://azure.microsoft.com/"
+
+- name: AWS
+  logo: /images/sections/skills/aws.svg
+  summary: "Architecting solutions on AWS for global-scale workloads. AWS Certified Solutions Architect – Associate and AI Practitioner."
+  categories: ["cloud"]
+  url: "https://aws.amazon.com/"
+
+- name: Cloud-Native Architecture
+  logo: /images/sections/skills/cloud.png
+  summary: "Leading SaaS transformations: decomposing monoliths into microservices, API (REST) design, and resilient distributed systems."
+  categories: ["cloud"]
+
+- name: Docker
+  logo: /images/sections/skills/docker.svg
+  summary: "Packaging and shipping services as containers, including multi-stage and multi-arch build pipelines."
+  categories: ["container"]
+  url: "https://www.docker.com/"
+
+- name: Kubernetes
+  logo: /images/sections/skills/kubernetes.png
+  summary: "Deploying and operating containerized workloads on Kubernetes as part of cloud-native delivery."
+  categories: ["container"]
+  url: "https://kubernetes.io/"
+
+- name: Git
+  logo: /images/sections/skills/git.png
+  summary: "Git-based development and trunk/branch workflows; experienced with GitHub and GitLab CI/CD."
+  categories: ["tools"]
+  url: "https://git-scm.com/"
+
+- name: Linux
+  logo: /images/sections/skills/linux.png
+  summary: "Comfortable on Linux for containerized and cloud environments, including shell scripting."
+  categories: ["tools"]

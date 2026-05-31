@@ -1,0 +1,62 @@
+# section information
+section:
+  name: Certifications
+  # id must stay "accomplishments" — that selects Toha's section template.
+  # Only "name" above controls the title shown on the page.
+  id: accomplishments
+  enable: true
+  weight: 3
+  showOnNavbar: true
+  # Can optionally hide the title in sections
+  # hideTitle: true
+
+# Your certifications.
+# Add a "certificateURL" to any entry to show a "View Certificate" button.
+accomplishments:
+- name: "Microsoft Certified: Azure Developer Associate"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com/credentials/
+  courseOverview: Designing, building, testing and maintaining cloud applications and services on Microsoft Azure.
+
+- name: "Microsoft Certified: Azure AI Engineer Associate"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com/credentials/
+  courseOverview: Building, managing and deploying AI solutions that leverage Azure AI services, machine learning and knowledge mining.
+
+- name: "Microsoft Certified: Agentic AI Business Solutions Architect"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com/credentials/
+  courseOverview: Architecting agentic AI business solutions on the Microsoft platform.
+
+- name: "AWS Certified Solutions Architect – Associate"
+  organization:
+    name: Amazon Web Services
+    url: https://aws.amazon.com/certification/
+  courseOverview: Designing scalable, resilient and cost-optimized distributed systems on AWS.
+
+- name: "AWS Certified AI Practitioner"
+  organization:
+    name: Amazon Web Services
+    url: https://aws.amazon.com/certification/
+  courseOverview: Foundational knowledge of AI/ML and generative AI concepts and their application on AWS.
+
+- name: "Certified Senior Software Architect"
+  organization:
+    name: Global Learning Campus
+    url: "#"
+  courseOverview: Senior-level corporate architecture certification covering large-scale system and software architecture.
+
+- name: "Microsoft Certified Trainer (MCT)"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com/credentials/
+  courseOverview: Recognized to deliver official Microsoft training and curriculum.
+
+- name: "Microsoft Certified Professional: ASP.NET"
+  organization:
+    name: Microsoft
+    url: https://learn.microsoft.com/credentials/
+  courseOverview: Professional certification in web application development with ASP.NET.

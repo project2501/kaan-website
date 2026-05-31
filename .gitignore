@@ -1,0 +1,16 @@
+# npm dependencies (restored in CI via `npm ci` from package-lock.json)
+node_modules/
+
+# Hugo build output (regenerated in CI by `hugo --minify`)
+public/
+
+# Hugo cache / module + image processing artifacts
+resources/_gen/
+.hugo_build.lock
+
+# Hugo server / deploy state
+.hugo/
+
+# OS / editor cruft
+.DS_Store
+Thumbs.db
