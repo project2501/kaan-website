@@ -1,0 +1,126 @@
+name: Build and Deploy to S3
+
+# Mirrors the former azure-pipelines.yml: build the Hugo (Toha) site and
+# sync the generated public/ folder to the S3 bucket on every push to main.
+on:
+  push:
+    branches: [main]
+  # Allows manually triggering the workflow from the Actions tab.
+  workflow_dispatch:
+
+# Don't run two deploys at once; cancel an in-progress run if a newer push lands.
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+env:
+  HUGO_VERSION: "0.156.0"
+
+permissions:
+  contents: write # needed so the post-deploy step can commit the README status update
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # full history (Hugo .GitInfo / .Lastmod can use it)
+
+      # Toha is pulled in as a Hugo Module, which requires Go.
+      - name: Set up Go
+        uses: actions/setup-go@v5
+        with:
+          go-version: "1.25"
+
+      # Toha's asset pipeline (fonts, flag icons, KaTeX, Bootstrap) needs Node/npm.
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install npm dependencies
+        run: npm ci
+
+      # Hugo extended is required by Toha for SCSS.
+      - name: Install Hugo
+        run: |
+          wget -O hugo.tar.gz \
+            "https://github.com/gohugoio/hugo/releases/download/v${HUGO_VERSION}/hugo_extended_${HUGO_VERSION}_linux-amd64.tar.gz"
+          tar -xzf hugo.tar.gz hugo
+          sudo mv hugo /usr/local/bin/hugo
+          hugo version
+
+      # Downloads the Toha module automatically via Go, then builds into public/.
+      - name: Build site
+        run: hugo --minify --gc
+
+      # ---- Deploy ----
+      # Uses long-lived AWS keys stored as GitHub Actions secrets (same values
+      # that lived in the Azure variable group "AwsSecretsForS3kaanbardak").
+      # Configure under: Settings > Secrets and variables > Actions.
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ secrets.AWS_REGION }}
+
+      - name: Sync to S3
+        run: aws s3 sync public/ "s3://${{ secrets.S3_BUCKET_NAME }}" --delete
+
+      # ---- Update README status (last publish date + latest post title) ----
+      - name: Update README publish status
+        run: |
+          LAST_PUBLISHED="$(date -u '+%Y-%m-%d %H:%M UTC')"
+          # Newest published post: filter hugo's CSV to the "posts" section, exclude
+          # the theme module's bundled content, sort by date desc, take the title.
+          LATEST_POST="$(hugo list published 2>/dev/null \
+            | awk -F, 'NR>1 && $10=="posts" && $9=="page" && $1 !~ /hugo-toha/ {print $4"\t"$3}' \
+            | sort -r | head -1 | cut -f2)"
+          [ -z "$LATEST_POST" ] && LATEST_POST="_no published posts yet_"
+
+          # Replace the marker blocks safely (lambda avoids sed escaping pitfalls).
+          python3 - "$LAST_PUBLISHED" "$LATEST_POST" <<'PY'
+          import re, sys
+          last, post = sys.argv[1], sys.argv[2]
+          s = open('README.md', encoding='utf-8').read()
+          s = re.sub(r'(<!-- last-published:start -->).*?(<!-- last-published:end -->)',
+                     lambda m: m.group(1) + last + m.group(2), s, flags=re.S)
+          s = re.sub(r'(<!-- latest-post:start -->).*?(<!-- latest-post:end -->)',
+                     lambda m: m.group(1) + post + m.group(2), s, flags=re.S)
+          open('README.md', 'w', encoding='utf-8').write(s)
+          PY
+
+          if ! git diff --quiet README.md; then
+            git config user.name  "github-actions[bot]"
+            git config user.email "github-actions[bot]@users.noreply.github.com"
+            git add README.md
+            # [skip ci] prevents this commit from triggering another deploy run.
+            git commit -m "docs: update publish status in README [skip ci]"
+            git push
+          else
+            echo "README already up to date; nothing to commit."
+          fi
+
+# ---------------------------------------------------------------------------
+# OPTIONAL, MORE SECURE ALTERNATIVE — OIDC instead of long-lived AWS keys
+# ---------------------------------------------------------------------------
+# Create an IAM role that trusts GitHub's OIDC provider, then replace the two
+# deploy steps above with the role assumption (no secrets stored in GitHub):
+#
+#   permissions:
+#     contents: read
+#     id-token: write        # <-- required for OIDC
+#
+#   - name: Configure AWS credentials (OIDC)
+#     uses: aws-actions/configure-aws-credentials@v4
+#     with:
+#       role-to-assume: arn:aws:iam::<ACCOUNT_ID>:role/<github-actions-deploy-role>
+#       aws-region: <your-region>
+#
+# Then keep the same "aws s3 sync" step. With OIDC you only need S3_BUCKET_NAME
+# (and can hardcode the region), not the access key/secret.
+# ---------------------------------------------------------------------------
