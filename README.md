@@ -7,8 +7,8 @@ through **GitHub Actions** on every push to `main`.
 <!-- The two values below are updated automatically by the CI/CD pipeline after each deploy. -->
 ![Build and Deploy](https://github.com/project2501/kaan-website/actions/workflows/deploy.yml/badge.svg)
 
-- **Last published:** <!-- last-published:start -->2026-05-31 20:03 UTC<!-- last-published:end -->
-- **Latest post:** <!-- latest-post:start -->_no published posts yet_<!-- latest-post:end -->
+- **Last published:** <!-- last-published:start -->2026-06-02 14:16 UTC<!-- last-published:end -->
+- **Latest post:** <!-- latest-post:start -->Pattern Languages<!-- latest-post:end -->
 
 > ℹ️ Replace `project2501` in the badge URL above with your GitHub username/org if it differs.
 
